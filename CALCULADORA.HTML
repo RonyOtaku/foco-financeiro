@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Foco Financeiro - Calculadora de Juros Compostos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+    <style>
+      body { font-family: 'Poppins', sans-serif; }
+      :root {
+        --gold: #d4af37;
+        --dark-blue: #0e1b2c;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 text-gray-800">
+    <!-- Header -->
+    <header class="bg-white shadow sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center space-y-3 md:space-y-0">
+    <div class="flex items-center space-x-2">
+      <img src="/IMG/LOGO.png" alt="Foco Financeiro Logo" class="h-8 w-auto md:h-10" />
+      <h1 class="text-lg md:text-xl font-bold text-yellow-600 whitespace-nowrap">Foco Financeiro</h1>
+    </div>
+    <nav class="flex flex-wrap justify-center gap-x-3 text-sm md:text-base">
+      <a href="/INDEX.HTML" class="hover:text-yellow-600">Início</a>
+      <a href="/INVESTIMENTOS.HTML" class="hover:text-yellow-600">Investimentos</a>
+      <a href="/CRIPTOS.HTML" class="hover:text-yellow-600">Criptos</a>
+      <a href="/CALCULADORA.HTML" class="hover:text-yellow-600">Calculadora</a>
+      <a href="/SOBRE.HTML" class="hover:text-yellow-600">Sobre</a>
+    </nav>
+  </div>
+</header>
+
+    <!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculadora de Juros Compostos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://kit.fontawesome.com/a2e0fc3c1d.js" crossorigin="anonymous"></script>
+  <style>
+    .card {
+      background-color: #fff;
+      border-radius: 0.75rem;
+      padding: 2.5rem;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
+    }
+
+    .logo-icon {
+      width: 50px;
+      height: 50px;
+      margin-right: 0.5rem;
+      object-fit: contain;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans p-4">
+  <div id="mainContainer" class="max-w-5xl mx-auto space-y-6">
+
+    <!-- Seção 1: Formulário -->
+    <div class="card">
+      <h2 class="text-lg font-bold border-b pb-2 mb-6 flex items-center">
+        <img src="img/LOGO.png" alt="Logo" class="logo-icon" />
+        SIMULADOR DE JUROS COMPOSTOS
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <!-- Campos do formulário -->
+        <div>
+          <label class="block mb-1 font-semibold">Valor Inicial</label>
+          <div class="flex rounded overflow-hidden bg-blue-50 border border-gray-300">
+            <span class="flex items-center px-3 bg-gray-200 text-sm font-semibold">R$</span>
+            <input type="number" id="valorInicial" class="w-full p-2 bg-blue-50 outline-none" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block mb-1 font-semibold">Taxa de Juros</label>
+          <div class="flex rounded overflow-hidden bg-blue-50 border border-gray-300">
+            <span class="flex items-center px-3 bg-gray-200 text-sm font-semibold">%</span>
+            <input type="number" id="taxaJuros" class="w-full p-2 bg-blue-50 outline-none" />
+            <select id="tipoTaxa" class="bg-gray-200 text-sm font-semibold px-3 outline-none">
+              <option value="anual">ANUAL</option>
+              <option value="mensal">MENSAL</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block mb-1 font-semibold">Período</label>
+          <div class="flex rounded overflow-hidden bg-blue-50 border border-gray-300">
+            <input type="number" id="periodo" class="w-full p-2 bg-blue-50 outline-none" />
+            <select id="tipoPeriodo" class="bg-gray-200 text-sm font-semibold px-3 outline-none">
+              <option value="anos">ANOS</option>
+              <option value="meses">MESES</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block mb-1 font-semibold">Investimento Mensal:</label>
+          <div class="flex rounded overflow-hidden bg-blue-50 border border-gray-300">
+            <span class="flex items-center px-3 bg-gray-200 text-sm font-semibold">R$</span>
+            <input type="number" id="aporteMensal" class="w-full p-2 bg-blue-50 outline-none" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Botões -->
+      <div class="flex justify-end gap-4">
+        <button onclick="limparCampos()" class="bg-white text-black px-5 py-2 rounded border border-black hover:bg-gray-100 flex items-center gap-2">
+          <i class="fas fa-eraser"></i> LIMPAR
+        </button>
+        <button onclick="calcularJuros()" class="bg-black text-white px-6 py-2 rounded hover:bg-gray-900 flex items-center gap-2">
+          <i class="fas fa-calculator"></i> CALCULAR
+        </button>
+      </div>
+    </div>
+
+    <!-- Seção Nova: O QUE SÃO OS JUROS COMPOSTOS -->
+    <div id="secaoJurosCompostos" class="card">
+      <h2 class="text-lg font-bold border-b pb-2 mb-4 flex items-center">
+        <img src="img/LOGO.png" alt="Logo" class="logo-icon" />
+        O QUE SÃO JUROS COMPOSTOS?
+      </h2>
+      <p class="text-gray-700 text-base leading-relaxed">
+        <p class="mb-4">
+    Os <strong>juros compostos</strong> são juros calculados não apenas sobre o valor inicial, mas sobre a soma do montante inicial mais os juros acumulados ao longo do tempo, resultando no famoso "<strong>juros sobre juros</strong>".
+  </p>
+  <p class="mb-4">
+    À medida que os juros são adicionados ao capital inicial, o montante total aumenta e os juros subsequentes são calculados com base nesse novo valor.
+  </p>
+  <p class="mb-4">
+    Na prática, isso gera um efeito de crescimento <strong>exponencial</strong>, que é muito positivo para quem investe no longo prazo (recebe juros sobre juros), mas pode ser <strong>prejudicial</strong> para quem contrata empréstimos e financiamentos de longa duração, por exemplo (paga juros sobre juros).
+  </p>
+
+  <h2 class="text-xl font-semibold mt-6 mb-3">Como funciona a fórmula de juros compostos?</h2>
+  <p class="mb-4">
+    A fórmula dos juros compostos é a seguinte:
+  </p>
+  <div class="bg-gray-100 p-4 rounded mb-4 text-center text-lg font-semibold">
+    M = C × (1 + i)<sup>t</sup>
+  </div>
+  <p class="mb-2">Onde:</p>
+  <ul class="list-disc pl-6 mb-6">
+    <li><strong>M</strong> é o montante total, incluindo o principal e os juros acumulados.</li>
+    <li><strong>C</strong> é o capital, ou seja, o valor inicial do investimento ou empréstimo.</li>
+    <li><strong>i</strong> é a taxa de juros do período (em decimal).</li>
+    <li><strong>t</strong> é o tempo, durante o qual os juros são aplicados.</li>
+  </ul>
+
+  <h2 class="text-xl font-semibold mb-3">Exemplo prático de cálculo</h2>
+  <p class="mb-4">
+    Suponha que você faça um investimento inicial de <strong>R$ 10.000,00</strong> com uma taxa de juros de <strong>10% ao ano</strong>. Vamos calcular o montante após <strong>3 anos</strong>.
+  </p>
+
+  <div class="bg-gray-50 border-l-4 border-blue-500 p-4 mb-6">
+    <p><strong>C</strong> = R$ 10.000,00 (capital inicial)</p>
+    <p><strong>i</strong> = 10% ou 0,10 (taxa de juros anual)</p>
+    <p><strong>t</strong> = 3 anos (tempo)</p>
+  </div>
+
+  <p class="mb-4">Substituindo os valores na fórmula:</p>
+  <div class="bg-gray-100 p-4 rounded mb-4 text-center text-lg font-semibold">
+    M = 10.000 × (1 + 0,10)<sup>3</sup>
+  </div>
+
+  <p class="mb-4">
+    Calculando:
+    <br>
+    (1 + 0,10)<sup>3</sup> = 1,10 × 1,10 × 1,10 = <strong>1,331</strong>
+  </p>
+  <p class="mb-4">
+    M = 10.000 × 1,331 = <strong>R$ 13.310,00</strong>
+  </p>
+
+  <p class="mb-4">
+    Portanto, o montante após 3 anos, com uma taxa de juros de 10% ao ano e um investimento inicial de R$ 10.000,00, seria de <strong>R$ 13.310,00</strong>.
+  </p>
+
+  <div class="bg-green-100 p-4 rounded border border-green-400 text-green-800 font-medium mb-6">
+    O investimento inicial cresceu em <strong>R$ 3.310,00</strong> devido ao efeito dos juros compostos.
+  </div>
+
+  <p>
+    Veja um detalhamento completo e compreenda a evolução dos juros na tabela abaixo:
+  </p>
+<style>
+  .investment-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-family: sans-serif;
+  }
+
+  .investment-table th,
+  .investment-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+  }
+
+  .investment-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+
+  .investment-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  .hidden-row {
+    display: none;
+  }
+
+  .show-button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 25px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    background-color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+  }
+
+  .show-button:hover {
+    background-color: #f3f3f3;
+  }
+</style>
+
+<table class="investment-table">
+  <thead>
+    <tr>
+      <th>Mês</th>
+      <th>Juros do Mês</th>
+      <th>Investido Total</th>
+      <th>Juros Total</th>
+      <th>Acumulado</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>0</td><td>--</td><td>R$ 10.000,00</td><td>--</td><td>R$ 10.000,00</td></tr>
+    <tr><td>1</td><td>R$ 79,74</td><td>R$ 10.000,00</td><td>R$ 79,74</td><td>R$ 10.079,74</td></tr>
+    <tr><td>2</td><td>R$ 80,38</td><td>R$ 10.000,00</td><td>R$ 160,12</td><td>R$ 10.160,12</td></tr>
+    <tr><td>3</td><td>R$ 81,02</td><td>R$ 10.000,00</td><td>R$ 241,14</td><td>R$ 10.241,14</td></tr>
+    <tr><td>4</td><td>R$ 81,66</td><td>R$ 10.000,00</td><td>R$ 322,80</td><td>R$ 10.322,80</td></tr>
+    <tr><td>5</td><td>R$ 82,32</td><td>R$ 10.000,00</td><td>R$ 405,12</td><td>R$ 10.405,12</td></tr>
+    <tr><td>6</td><td>R$ 82,97</td><td>R$ 10.000,00</td><td>R$ 488,09</td><td>R$ 10.488,09</td></tr>
+    <tr><td>7</td><td>R$ 83,63</td><td>R$ 10.000,00</td><td>R$ 571,72</td><td>R$ 10.571,72</td></tr>
+
+    <!-- As próximas linhas ficam ocultas -->
+    <tr class="hidden-row"><td>8</td><td>R$ 84,30</td><td>R$ 10.000,00</td><td>R$ 656,02</td><td>R$ 10.656,02</td></tr>
+    <tr class="hidden-row"><td>9</td><td>R$ 84,97</td><td>R$ 10.000,00</td><td>R$ 740,99</td><td>R$ 10.740,99</td></tr>
+    <tr class="hidden-row"><td>10</td><td>R$ 85,65</td><td>R$ 10.000,00</td><td>R$ 826,65</td><td>R$ 10.826,65</td></tr>
+    <tr class="hidden-row"><td>11</td><td>R$ 86,33</td><td>R$ 10.000,00</td><td>R$ 912,98</td><td>R$ 10.912,98</td></tr>
+    <tr class="hidden-row"><td>12</td><td>R$ 87,02</td><td>R$ 10.000,00</td><td>R$ 1.000,00</td><td>R$ 11.000,00</td></tr>
+    <tr class="hidden-row"><td>13</td><td>R$ 87,72</td><td>R$ 10.000,00</td><td>R$ 1.087,72</td><td>R$ 11.087,72</td></tr>
+    <tr class="hidden-row"><td>14</td><td>R$ 88,42</td><td>R$ 10.000,00</td><td>R$ 1.176,13</td><td>R$ 11.176,13</td></tr>
+    <tr class="hidden-row"><td>15</td><td>R$ 89,12</td><td>R$ 10.000,00</td><td>R$ 1.265,25</td><td>R$ 11.265,25</td></tr>
+    <tr class="hidden-row"><td>16</td><td>R$ 89,83</td><td>R$ 10.000,00</td><td>R$ 1.355,08</td><td>R$ 11.355,08</td></tr>
+    <tr class="hidden-row"><td>17</td><td>R$ 90,55</td><td>R$ 10.000,00</td><td>R$ 1.445,63</td><td>R$ 11.445,63</td></tr>
+    <tr class="hidden-row"><td>18</td><td>R$ 91,27</td><td>R$ 10.000,00</td><td>R$ 1.536,90</td><td>R$ 11.536,90</td></tr>
+    <tr class="hidden-row"><td>19</td><td>R$ 92,00</td><td>R$ 10.000,00</td><td>R$ 1.628,89</td><td>R$ 11.628,89</td></tr>
+    <tr class="hidden-row"><td>20</td><td>R$ 92,73</td><td>R$ 10.000,00</td><td>R$ 1.721,62</td><td>R$ 11.721,62</td></tr>
+    <tr class="hidden-row"><td>21</td><td>R$ 93,47</td><td>R$ 10.000,00</td><td>R$ 1.815,09</td><td>R$ 11.815,09</td></tr>
+    <tr class="hidden-row"><td>22</td><td>R$ 94,22</td><td>R$ 10.000,00</td><td>R$ 1.909,31</td><td>R$ 11.909,31</td></tr>
+    <tr class="hidden-row"><td>23</td><td>R$ 94,97</td><td>R$ 10.000,00</td><td>R$ 2.004,28</td><td>R$ 12.004,28</td></tr>
+    <tr class="hidden-row"><td>24</td><td>R$ 95,72</td><td>R$ 10.000,00</td><td>R$ 2.100,00</td><td>R$ 12.100,00</td></tr>
+    <tr class="hidden-row"><td>25</td><td>R$ 96,49</td><td>R$ 10.000,00</td><td>R$ 2.196,49</td><td>R$ 12.196,49</td></tr>
+    <tr class="hidden-row"><td>26</td><td>R$ 97,26</td><td>R$ 10.000,00</td><td>R$ 2.293,74</td><td>R$ 12.293,74</td></tr>
+    <tr class="hidden-row"><td>27</td><td>R$ 98,03</td><td>R$ 10.000,00</td><td>R$ 2.391,78</td><td>R$ 12.391,78</td></tr>
+    <tr class="hidden-row"><td>28</td><td>R$ 98,81</td><td>R$ 10.000,00</td><td>R$ 2.490,59</td><td>R$ 12.490,59</td></tr>
+    <tr class="hidden-row"><td>29</td><td>R$ 99,60</td><td>R$ 10.000,00</td><td>R$ 2.590,19</td><td>R$ 12.590,19</td></tr>
+    <tr class="hidden-row"><td>30</td><td>R$ 100,40</td><td>R$ 10.000,00</td><td>R$ 2.690,59</td><td>R$ 12.690,59</td></tr>
+    <tr class="hidden-row"><td>31</td><td>R$ 101,20</td><td>R$ 10.000,00</td><td>R$ 2.791,78</td><td>R$ 12.791,78</td></tr>
+    <tr class="hidden-row"><td>32</td><td>R$ 102,00</td><td>R$ 10.000,00</td><td>R$ 2.893,79</td><td>R$ 12.893,79</td></tr>
+    <tr class="hidden-row"><td>33</td><td>R$ 102,82</td><td>R$ 10.000,00</td><td>R$ 2.996,60</td><td>R$ 12.996,60</td></tr>
+    <tr class="hidden-row"><td>34</td><td>R$ 103,64</td><td>R$ 10.000,00</td><td>R$ 3.100,24</td><td>R$ 13.100,24</td></tr>
+    <tr class="hidden-row"><td>35</td><td>R$ 104,46</td><td>R$ 10.000,00</td><td>R$ 3.204,70</td><td>R$ 13.204,70</td></tr>
+    <tr class="hidden-row"><td>36</td><td>R$ 105,30</td><td>R$ 10.000,00</td><td>R$ 3.310,00</td><td>R$ 13.310,00</td></tr>
+  </tbody>
+</table>
+
+<button class="show-button" onclick="toggleRows(this)">LEIA MAIS</button>
+
+<script>
+  function toggleRows(button) {
+    const rows = document.querySelectorAll(".hidden-row");
+    const isHidden = rows[0].style.display === "none" || rows[0].style.display === "";
+
+    rows.forEach(row => {
+      row.style.display = isHidden ? "table-row" : "none";
+    });
+
+    button.innerText = isHidden ? "LER MENOS" : "LEIA MAIS";
+    if (isHidden) {
+      button.scrollIntoView({ behavior: "smooth", block: "end" });
+    }
+  }
+</script>
+ <p class="mb-4">
+    Sabendo disso, para potencializar o efeito dos juros compostos, os investidores costumam realizar novos aportes mensalmente.
+  </p>
+  <p class="mb-4 font-semibold">
+    Curiosidade: Nas mesmas condições, se aplicássemos os juros simples, o montante final seria de R$ 13.000,00
+  </p>
+
+  <h3 class="text-xl font-semibold mt-6 mb-2">Como calcular juros compostos</h3>
+  <p class="mb-4">
+    Para calcular juros compostos, você pode usar a fórmula mencionada acima. Substitua os valores conhecidos na fórmula e calcule o montante total (M).
+  </p>
+  <p class="mb-4">
+    Tenha cuidado ao usar as unidades corretas para o tempo e a taxa de juros, garantindo que estejam na mesma base (por exemplo, anos e anos, meses e meses).
+  </p>
+
+  <h3 class="text-xl font-semibold mt-6 mb-2">Qual a diferença entre juros simples e juros compostos?</h3>
+  <p class="mb-4">
+    A diferença entre juros simples e juros compostos está na forma como os juros são calculados ao longo do tempo.
+  </p>
+  <p class="mb-4">
+    Nos juros simples, os juros são calculados apenas sobre o valor inicial. Já nos juros compostos, os juros são calculados sobre o valor inicial e também sobre os juros acumulados anteriormente.
+  </p>
+  <p class="mb-4">
+    Em termos de resultado, os juros compostos tendem a acumular um montante maior ao longo do tempo do que os juros simples.
+  </p>
+
+  <h3 class="text-xl font-semibold mt-6 mb-2">Quais os benefícios dos juros compostos para investidores?</h3>
+  <p class="mb-4">
+    Os juros compostos oferecem diversos benefícios aos investidores, mas o principal benefício é o potencial de crescimento acelerado do investimento ao longo do tempo.
+  </p>
+  <p class="mb-4">
+    À medida que os juros e dividendos das aplicações são reinvestidos, o montante total aumenta exponencialmente, permitindo que o investidor aumente o seu patrimônio de forma acelerada.
+  </p>
+  <p class="mb-4">
+    Em outras palavras, isso representa maior rendimento a longo prazo e pode ajudar os investidores a alcançar metas financeiras em menor tempo.
+  </p>
+
+  <h3 class="text-xl font-semibold mt-6 mb-2">Quais estratégias podem ser adotadas para aproveitar ao máximo os juros compostos?</h3>
+  <ul class="list-disc pl-5 mb-4">
+    <li>Começar a investir o mais cedo possível para maximizar o tempo de crescimento.</li>
+    <li>Manter os investimentos por períodos longos para permitir a acumulação contínua dos juros compostos.</li>
+    <li>Fazer aportes regularmente na aplicação financeira, adicionando mais fundos ao longo do tempo.</li>
+    <li>Buscar opções de investimento com taxas de juros competitivas.</li>
+    <li>Reinvestir os rendimentos obtidos dos investimentos para aumentar o capital inicial e impulsionar o crescimento dos juros compostos.</li>
+  </ul>
+</section>
+      </p>
+    </div>
+
+    <!-- Seção 2: Resultado -->
+    <div id="areaResultados" class="card hidden">
+      <h2 class="text-lg font-bold border-b pb-2 mb-4 flex items-center">
+  <img src="img/LOGO.png" alt="Logo" class="logo-icon" />
+  RESULTADO:
+</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+        <div>
+          <p class="text-sm text-gray-500">Total em Juros</p>
+          <p class="text-xl font-semibold text-blue-500" id="totalJuros">R$ 0,00</p>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500">Valor Total Investido</p>
+          <p class="text-xl font-semibold text-blue-500" id="totalInvestido">R$ 0,00</p>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500">Valor Total Final</p>
+          <p class="text-xl font-semibold text-blue-500" id="totalFinal">R$ 0,00</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Seção 3: Gráficos -->
+    <div id="areaGraficos" class="card hidden">
+      <h2 class="text-lg font-bold border-b pb-2 mb-4 flex items-center">
+  <img src="img/LOGO.png" alt="Logo" class="logo-icon" />
+  GRÁFICO
+</h2>
+      <div class="flex justify-center mb-6">
+        <canvas id="graficoRosca" width="220" height="220"></canvas>
+      </div>
+      <div>
+        <canvas id="graficoBarra"></canvas>
+      </div>
+    </div>
+
+    <!-- Seção 4: Tabela -->
+    <div id="areaTabela" class="card hidden">
+      <h2 class="text-lg font-bold border-b pb-2 mb-4 flex items-center">
+  <img src="img/LOGO.png" alt="Logo" class="logo-icon" />
+  TABELA
+</h2>
+      <div class="overflow-y-auto max-h-96 border rounded">
+        <table class="min-w-full text-sm text-left border-collapse">
+          <thead class="bg-gray-100 sticky top-0 z-10">
+            <tr>
+              <th class="px-4 py-2 border">Meses</th>
+              <th class="px-4 py-2 border">Juros</th>
+              <th class="px-4 py-2 border">Total Investido</th>
+              <th class="px-4 py-2 border">Total Juros</th>
+              <th class="px-4 py-2 border">Acumulado</th>
+            </tr>
+          </thead>
+          <tbody id="tabelaResultados" class="divide-y"></tbody>
+        </table>
+      </div>
+    </div>
+
+  <!-- Scripts -->
+  <script>
+    let chartRosca;
+    let chartBarra;
+
+      function limparCampos() {
+  document.getElementById("valorInicial").value = "";
+  document.getElementById("aporteMensal").value = "";
+  document.getElementById("taxaJuros").value = "";
+  document.getElementById("periodo").value = "";
+  document.getElementById("tipoPeriodo").value = "anos";
+  document.getElementById("tipoTaxa").value = "anual";
+
+  document.getElementById("areaResultados").classList.add("hidden");
+  document.getElementById("areaGraficos").classList.add("hidden");
+  document.getElementById("areaTabela").classList.add("hidden");
+}
+
+    function calcularJuros() {
+      const valorInicial = parseFloat(document.getElementById("valorInicial").value);
+      const aporteMensal = parseFloat(document.getElementById("aporteMensal").value);
+      const tipoTaxa = document.getElementById("tipoTaxa").value;
+      let taxa;
+
+      if (tipoTaxa === "anual") {
+        taxa = Math.pow(1 + parseFloat(document.getElementById("taxaJuros").value) / 100, 1 / 12) - 1;
+      } else {
+        taxa = parseFloat(document.getElementById("taxaJuros").value) / 100;
+      }
+
+      let periodo = parseInt(document.getElementById("periodo").value);
+      const tipoPeriodo = document.getElementById("tipoPeriodo").value;
+
+      if (tipoPeriodo === "anos") periodo *= 12;
+
+      let montante = valorInicial;
+      let totalAportado = valorInicial;
+      const valoresInvestidos = [];
+      const valoresJuros = [];
+      const labels = [];
+
+      for (let i = 1; i <= periodo; i++) {
+        montante = montante * (1 + taxa) + aporteMensal;
+        totalAportado += aporteMensal;
+        const valorJuros = montante - totalAportado;
+        valoresInvestidos.push(totalAportado.toFixed(2));
+        valoresJuros.push(valorJuros.toFixed(2));
+        labels.push(i.toString());
+      }
+
+      const totalFinal = parseFloat(montante.toFixed(2));
+      const jurosTotais = parseFloat((totalFinal - totalAportado).toFixed(2));
+
+      // Mostrar as outras seções (já existentes no seu script)
+      // ...
+    
+// Exibir resultados
+      document.getElementById("areaResultados").classList.remove("hidden");
+      document.getElementById("totalJuros").innerText = jurosTotais.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+      document.getElementById("totalInvestido").innerText = totalAportado.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+      document.getElementById("totalFinal").innerText = totalFinal.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+
+      document.getElementById("areaGraficos").classList.remove("hidden");
+
+      if (chartRosca) chartRosca.destroy();
+      chartRosca = new Chart(document.getElementById("graficoRosca"), {
+        type: "doughnut",
+        data: {
+          labels: ["Valor Investido", "Valor em Juros"],
+          datasets: [{
+            data: [totalAportado, jurosTotais],
+            backgroundColor: ["#374151", "#9ACBF5"],
+          }]
+        },
+        options: {
+          responsive: false,
+          plugins: {
+            legend: {
+              position: "top",
+              labels: { color: "#111", font: { size: 13 } }
+            }
+          }
+        }
+      });
+
+      if (chartBarra) chartBarra.destroy();
+      chartBarra = new Chart(document.getElementById("graficoBarra"), {
+        type: "bar",
+        data: {
+          labels: labels,
+          datasets: [
+            { label: "Valor Investido", data: valoresInvestidos, backgroundColor: "#374151", stack: "montante" },
+            { label: "Valor em Juros", data: valoresJuros, backgroundColor: "#9ACBF5", stack: "montante" }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: "top",
+              labels: {
+                color: "#111",
+                font: { size: 13 }
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: function (context) {
+                  let valor = parseFloat(context.raw).toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL"
+                  });
+                  return `${context.dataset.label}: ${valor}`;
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              stacked: true,
+              title: { display: true, text: "Meses" }
+            },
+            y: {
+              stacked: true,
+              beginAtZero: true,
+              ticks: {
+                callback: function (value) {
+                  return "R$ " + (value / 1000).toFixed(2) + " K";
+                }
+              }
+            }
+          }
+        }
+      });
+
+      // Preencher tabela
+      const tabela = document.getElementById("tabelaResultados");
+      tabela.innerHTML = "";
+
+      for (let i = 0; i <= periodo; i++) {
+        let jurosMes = 0;
+        let investido = valorInicial + (i * aporteMensal);
+        let montanteAtual = valorInicial;
+
+        for (let j = 1; j <= i; j++) {
+          montanteAtual = montanteAtual * (1 + taxa) + aporteMensal;
+        }
+
+        if (i === 0) montanteAtual = valorInicial;
+        let totalJuros = montanteAtual - investido;
+
+        if (i > 0) {
+          let montanteAnterior = valorInicial;
+          for (let j = 1; j <= i - 1; j++) {
+            montanteAnterior = montanteAnterior * (1 + taxa) + aporteMensal;
+          }
+          if (i === 1) montanteAnterior = valorInicial;
+          jurosMes = montanteAtual - montanteAnterior - aporteMensal;
+        }
+
+        tabela.innerHTML += `
+  <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}">
+    <td class="px-4 py-2 border">${i}</td>
+    <td class="px-4 py-2 border">${jurosMes.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</td>
+    <td class="px-4 py-2 border">${investido.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</td>
+    <td class="px-4 py-2 border">${totalJuros.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</td>
+    <td class="px-4 py-2 border">${montanteAtual.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</td>
+  </tr>
+        `;
+      }
+
+      document.getElementById("areaTabela").classList.remove("hidden");
+    }
+  </script>
+</body>
+</html>
+<!-- Footer -->
+<footer id="footer" class="w-screen bg-[#0e1b2c] text-white py-6 text-center relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] max-w-none">
+  <p class="mb-2">&copy; 2025 Foco Financeiro. Todos os direitos reservados.</p>
+  <p class="italic text-sm">Onde investir é fácil</p>
+  <a href="https://youtube.com/@focofinanceiro.oficial?si=tu7mCzN5mP9Ca93Q" target="_blank" class="underline hover:text-yellow-400">
+    YouTube: @FocoFinanceiro
+  </a>
+</footer>
+
+   <!--// Mover a seção para o final-->
+
+    <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const secao = document.getElementById("secaoJurosCompostos");
+    const footer = document.getElementById("footer");
+    const container = document.getElementById("mainContainer");
+
+    if (secao && container) {
+      container.appendChild(secao);
+    }
+
+    if (footer && container) {
+      container.appendChild(footer);
+    }
+  });
+</script>
+  </body>
+</html>
